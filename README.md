@@ -15,7 +15,18 @@ Quiz 04
         (comment) - belongs_to :commentable, :polymorphic => true
 
 3. profile 유효성검사는 어떻게 하였는지 적으시오  
-    답 :       before_action :write_profile, except: [:new, :create]
+    답 :       모델 profile.rb에서 이름, 폰넘버 등등을 설정할 수 있다. - validates로 설정 가능
+
+이름은 꼭 있어야하면 최소 1, 최대 30글자고
+폰넘버는 있어야하고 010 ~~~~~~~~ 등 그리고 또 하나만 있어야한다.(uniqueness)
+class Profile < ApplicationRecord
+  belongs_to :user
+  validates :name, presence: true, length:{minimum:1,maximum:30}
+  VALID_PHONE_NUMBER = /\A010([1-9]{1}[0-9]{3})([0-9]{4})\z/
+  validates :mobile, presence: true, format: {with: VALID_PHONE_NUMBER}, uniqueness: true
+  
+end
+
 
 4. 커스텀 helper를 사용한 기능은 무엇인지 모두 쓰시오  
     답 :   
